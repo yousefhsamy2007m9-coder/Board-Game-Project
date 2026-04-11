@@ -175,3 +175,15 @@ If only one condition is met, the game continues.
 |------|--------|
 | Conveyor Belt | Teleport **forward** (no effect on landing cell) |
 | Contamination Sock | Teleport **backward** + lose **100 energy** (shield blocks energy loss, not movement) |
+
+---
+
+## ⚠️ Disclaimer
+
+This is a **fan-made, non-commercial board game** created for educational and entertainment purposes only.
+
+**DooR DasH: Scare vs Laugh Touchdown** is not affiliated with, endorsed by, or connected to Pixar Animation Studios or The Walt Disney Company in any way.
+
+All Monsters Inc. characters, names, imagery, and related intellectual property are trademarks and © of **Pixar Animation Studios / The Walt Disney Company**. All rights reserved.
+
+No copyright infringement is intended. This project is not for sale and no profit is being made from it.
