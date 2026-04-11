@@ -3,10 +3,10 @@ import game.engine.Constants;
 import game.engine.Role;
 
 public abstract class Monster implements Comparable<Monster>{
-	private final String name;
-	private final String description;
+	private String name;
+	private String description;
 	private Role role;
-	private final Role originalRole;
+	private Role originalRole;
 	private int energy;
 	private int position;
 	private boolean frozen;
@@ -14,10 +14,11 @@ public abstract class Monster implements Comparable<Monster>{
 	private int confusionTurns;
 	
 	public Monster(String name, String description, Role originalRole, int energy) {
+		super();
 		this.name = name;
 		this.description = description;
 		this.originalRole = originalRole;
-		setEnergy(energy);
+		this.energy = energy;
 		role = originalRole;
 		position = 0;
 		confusionTurns = 0;
@@ -70,11 +71,7 @@ public abstract class Monster implements Comparable<Monster>{
     }
 
     public void setEnergy(int energy) {
-        if (energy < 0) {
-            this.energy = 0;
-        } else {
-            this.energy = energy;
-        }
+    	this.energy = Math.max(Constants.MIN_ENERGY, energy);
     }
 
     public void setPosition(int position) {

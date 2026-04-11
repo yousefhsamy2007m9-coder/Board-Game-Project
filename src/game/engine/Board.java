@@ -5,7 +5,7 @@ import game.engine.monsters.Monster;
 import java.util.ArrayList;
 
 public class Board {
-	private final Cell[][] boardCells;
+	private Cell[][] boardCells;
 	private static ArrayList<Monster> stationedMonsters;
 	private static ArrayList<Card> originalCards;
 	public static ArrayList<Card> cards;
