@@ -2,11 +2,10 @@ package game.engine.cells;
 
 import game.engine.Role;
 import game.engine.interfaces.CanisterModifier;
-import game.engine.monsters.Monster;
 
 public class DoorCell extends Cell implements CanisterModifier{
-	private final Role role;
-	private final int energy;
+	private Role role;
+	private int energy;
 	private boolean activated;
 	
 	public DoorCell(String name, Role role, int energy){
@@ -14,10 +13,6 @@ public class DoorCell extends Cell implements CanisterModifier{
 		this.role = role;
 		this.energy = energy;
 		this.activated = false;
-	}
-	
-	public void modifyEnergy(Monster target, int amount) {
-	    // Tbd
 	}
 
     public Role getRole() {

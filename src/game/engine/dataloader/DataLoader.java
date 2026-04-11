@@ -1,127 +1,121 @@
 package game.engine.dataloader;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import game.engine.exceptions.InvalidCSVFormat;
 import game.engine.Role;
 import game.engine.cards.*;
 import game.engine.cells.*;
 import game.engine.monsters.*;
-import game.engine.exceptions.InvalidCSVFormat;
 
 public class DataLoader {
 	private static final String CARDS_FILE_NAME = "cards.csv";
 	private static final String CELLS_FILE_NAME = "cells.csv";
 	private static final String MONSTERS_FILE_NAME = "monsters.csv";
 	
-	public static ArrayList<Card> readCards() throws IOException{
+	public static ArrayList<Card> readCards() throws IOException {
 		ArrayList<Card> cards = new ArrayList<>();
 		BufferedReader br = new BufferedReader(new FileReader(CARDS_FILE_NAME));
 		String line;
-		while ((line = br.readLine()) != null) {
-			String[] values = line.split(",");
+		
+		while (br.ready()) {
+			line = br.readLine();
+			String[] data = line.split(",");
 			
-			if (values.length < 4 || values.length > 5) {
-                br.close();
-                throw new InvalidCSVFormat(line);
-            }
-			
-			try {
-				switch(values[0]){
-					case "SWAPPER":
-						cards.add(new SwapperCard(values[1], values[2], Integer.parseInt(values[3])));
-						break;
-					case "SHIELD":
-						cards.add(new ShieldCard(values[1], values[2], Integer.parseInt(values[3])));
-						break;
-					case "ENERGYSTEAL":
-						cards.add(new EnergyStealCard(values[1], values[2], Integer.parseInt(values[3]), Integer.parseInt(values[4])));
-						break;
-					case "STARTOVER":
-						cards.add(new StartOverCard(values[1], values[2], Integer.parseInt(values[3]), Boolean.parseBoolean(values[4])));
-						break;
-					case "CONFUSION":
-						cards.add(new ConfusionCard(values[1], values[2], Integer.parseInt(values[3]), Integer.parseInt(values[4])));
-						break;
-					default:
-						br.close();
-						throw new InvalidCSVFormat(line);
-				}
-			} catch (NumberFormatException e) {
+			if (data.length != 4 && data.length != 5) {
 				br.close();
-                throw new InvalidCSVFormat(line);
+				System.out.println(data.length);
+				throw new InvalidCSVFormat(line);
+			}
+			
+			switch(data[0]){
+			case "SWAPPER":
+				cards.add(new SwapperCard(data[1], data[2], Integer.parseInt(data[3])));
+				break;
+			case "SHIELD":
+				cards.add(new ShieldCard(data[1], data[2], Integer.parseInt(data[3])));
+				break;
+			case "ENERGYSTEAL":
+				cards.add(new EnergyStealCard(data[1], data[2], Integer.parseInt(data[3]), Integer.parseInt(data[4])));
+				break;
+			case "STARTOVER":
+				cards.add(new StartOverCard(data[1], data[2], Integer.parseInt(data[3]), Boolean.parseBoolean(data[4])));
+				break;
+			case "CONFUSION":
+				cards.add(new ConfusionCard(data[1], data[2], Integer.parseInt(data[3]), Integer.parseInt(data[4])));
+				break;
+			default:
+				br.close();
+				throw new InvalidCSVFormat("Unknown card type: " + data[0]);
 			}
 		}
+
 		br.close();
 		return cards;
 	}
 	
-	public static ArrayList<Cell> readCells() throws IOException{
-		ArrayList<Cell> cells = new ArrayList<>();
+	public static ArrayList<Cell> readCells() throws IOException {
+		ArrayList<Cell> cells = new ArrayList<Cell>();
 		BufferedReader br = new BufferedReader(new FileReader(CELLS_FILE_NAME));
 		String line;
-		while ((line = br.readLine()) != null) {
-			String[] values = line.split(",");
+		
+		while (br.ready()) {
+			line = br.readLine();
+			String[] data = line.split(",");
 			
-			if (values.length < 2 || values.length > 3) {
-                br.close();
-                throw new InvalidCSVFormat(line);
-            }
-			
-			try {
-				if(values.length == 3) {
-					cells.add(new DoorCell(values[0], Role.valueOf(values[1]), Integer.parseInt(values[2])));
-				}
-				if(values.length == 2) {
-					if(Integer.parseInt(values[1]) > 0)
-						cells.add(new ConveyorBelt(values[0], Integer.parseInt(values[1])));
-					else
-						cells.add(new ContaminationSock(values[0], Integer.parseInt(values[1])));
-				}
-			} catch (IllegalArgumentException e) {
+			if (data.length != 2 && data.length != 3) {
 				br.close();
-                throw new InvalidCSVFormat(line);
+				throw new InvalidCSVFormat(line);
 			}
+			
+			if (data.length == 2) 
+				cells.add(Integer.parseInt(data[1]) > 0 ? new ConveyorBelt(data[0], Integer.parseInt(data[1])) : new ContaminationSock(data[0], Integer.parseInt(data[1])));
+			else 
+				cells.add(new DoorCell(data[0], Role.valueOf(data[1]), Integer.parseInt(data[2])));
 		}
+		
 		br.close();
 		return cells;
 	}
 	
-	public static ArrayList<Monster> readMonsters() throws IOException{
-		ArrayList<Monster> monsters = new ArrayList<>();
+	public static ArrayList<Monster> readMonsters() throws IOException {
+		ArrayList<Monster> monsters = new ArrayList<Monster>();
+
 		BufferedReader br = new BufferedReader(new FileReader(MONSTERS_FILE_NAME));
-		String line;
-		while ((line = br.readLine()) != null) {
-			String[] values = line.split(",");
+
+		while (br.ready()) {
+			String nextLine = br.readLine();
+			String[] data = nextLine.split(",");
 			
-			if (values.length != 5) {
-                br.close();
-                throw new InvalidCSVFormat(line);
-            }
-			
-			try {
-				switch(values[0]){
-					case "DYNAMO":
-						monsters.add(new Dynamo(values[1], values[2], Role.valueOf(values[3]), Integer.parseInt(values[4])));
-						break;
-					case "DASHER":
-						monsters.add(new Dasher(values[1], values[2], Role.valueOf(values[3]), Integer.parseInt(values[4])));
-						break;
-					case "SCHEMER":
-						monsters.add(new Schemer(values[1], values[2], Role.valueOf(values[3]), Integer.parseInt(values[4])));
-						break;
-					case "MULTITASKER":
-						monsters.add(new MultiTasker(values[1], values[2], Role.valueOf(values[3]), Integer.parseInt(values[4])));
-						break;
-					default:
-						br.close();
-						throw new InvalidCSVFormat(line);
-				}
-			} catch (IllegalArgumentException e) {
+
+			if (data.length != 5) {
 				br.close();
-                throw new InvalidCSVFormat(line);
+				throw new InvalidCSVFormat(nextLine);
+			}
+			
+			switch (data[0]) {
+				case "DYNAMO":
+					monsters.add(new Dynamo(data[1], data[2], Role.valueOf(data[3]), Integer.parseInt(data[4])));
+					break;
+				case "DASHER":
+					monsters.add(new Dasher(data[1], data[2], Role.valueOf(data[3]), Integer.parseInt(data[4])));
+					break;
+				case "MULTITASKER":
+					monsters.add(new MultiTasker(data[1], data[2], Role.valueOf(data[3]), Integer.parseInt(data[4])));
+					break;
+				case "SCHEMER":
+					monsters.add(new Schemer(data[1], data[2], Role.valueOf(data[3]), Integer.parseInt(data[4])));
+					break;
+			default:
+				throw new InvalidCSVFormat("Unknown monster type: " + data[0]);
 			}
 		}
+
 		br.close();
 		return monsters;
 	}
+	
 }
