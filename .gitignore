@@ -1,0 +1,38 @@
+# ===========================
+# Compiled Java
+# ===========================
+*.class
+*.jar
+*.war
+*.ear
+
+# ===========================
+# Eclipse IDE
+# ===========================
+.classpath
+.project
+.settings/
+bin/
+
+# ===========================
+# OS files
+# ===========================
+.DS_Store
+Thumbs.db
+
+# ===========================
+# Logs
+# ===========================
+*.log
+logs/
+
+# ===========================
+# Images / Assets to EXCLUDE
+# (comment out any line you DO want tracked)
+# ===========================
+# *.png
+# *.jpg
+# *.jpeg
+# *.gif
+# *.bmp
+# *.ico
