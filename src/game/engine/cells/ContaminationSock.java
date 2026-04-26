@@ -1,6 +1,7 @@
 package game.engine.cells;
 
 import game.engine.interfaces.CanisterModifier;
+import game.engine.monsters.Monster;
 
 public class ContaminationSock extends TransportCell implements CanisterModifier {
 
@@ -8,6 +9,8 @@ public class ContaminationSock extends TransportCell implements CanisterModifier
 		super(name, effect);
 	}
 	
-
+	public void modifyCanisterEnergy(Monster monster, int canisterValue) {
+		monster.setEnergy(monster.getEnergy() + canisterValue);
+	}
 }
 
