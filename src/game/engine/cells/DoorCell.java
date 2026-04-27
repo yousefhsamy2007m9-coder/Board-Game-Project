@@ -8,6 +8,7 @@ public class DoorCell extends Cell implements CanisterModifier {
 	private Role role;
 	private int energy;
 	private boolean activated;
+	private boolean roleMatch;
 	
 	public DoorCell(String name, Role role, int energy) {
 		super(name);
@@ -31,9 +32,17 @@ public class DoorCell extends Cell implements CanisterModifier {
 	public void setActivated(boolean isActivated) {
 		this.activated = isActivated;
 	}
-	
-	public void modifyCanisterEnergy(Monster monster, int canisterValue) {
-		monster.setEnergy(monster.getEnergy() + canisterValue);
+	public void modifyCanisterEnergy(Monster monster,int canisterValue) {
+		monster.alterEnergy(canisterValue);
 	}
 
+	public void onLand( Monster landingMonster,Monster opponentMonster) {
+		super.onLand(landingMonster,opponentMonster);
+		if(!activated) {
+			return;
+		}
+		if(roleMatch|| !landingMonster.isShielded()) {
+			activated=true;
+		}
+	}
 }
