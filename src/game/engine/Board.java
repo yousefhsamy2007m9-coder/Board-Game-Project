@@ -57,7 +57,7 @@ public class Board {
 		this.boardCells[indexToRowCol(index)[0]][indexToRowCol(index)[1]] = cell;
 	}
 	
-	void initializeBoard(ArrayList<Cell> specialCells) {
+	public void initializeBoard(ArrayList<Cell> specialCells) {
 		for(int cellNo = 0; cellNo < 100; cellNo += 2) {
 			setCell(cellNo,new Cell("Normal cell"));
 		}
@@ -107,29 +107,29 @@ public class Board {
 		originalCards = updatedOriginalCards;
 	}
 	
-	static void reloadCards() {
+	public static void reloadCards() {
 	    ArrayList<Card> freshCards = new ArrayList<>(originalCards);
 	    Collections.shuffle(freshCards);
 	    setCards(freshCards);
 	}
 	
-	static Card drawCard() {
+	public static Card drawCard() {
 		if (cards.isEmpty())
 			reloadCards();
 		return Board.cards.remove(0);
 	}
 	
-	void moveMonster(Monster currentMonster, int roll, Monster opponentMonster) throws InvalidMoveException{
+	public void moveMonster(Monster currentMonster, int roll, Monster opponentMonster) throws InvalidMoveException{
 		int old = currentMonster.getPosition();
-		currentMonster.setPosition(currentMonster.getPosition() + roll);
+		currentMonster.setPosition(currentMonster.getPosition() + roll); //might use move method here??
 		getCell(currentMonster.getPosition()).onLand(currentMonster, opponentMonster);
 		if(currentMonster.getPosition() == opponentMonster.getPosition()) {
 			currentMonster.setPosition(old);
 			throw new InvalidMoveException();
 		}
-		if(currentMonster.getConfusionTurns()>0)
+		if(currentMonster.isConfused())
 			currentMonster.decrementConfusion();
-		if(opponentMonster.getConfusionTurns()>0)
+		if(opponentMonster.isConfused())
 			opponentMonster.decrementConfusion();
 		updateMonsterPositions(currentMonster, opponentMonster);
 	}
