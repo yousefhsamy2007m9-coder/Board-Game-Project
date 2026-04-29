@@ -92,8 +92,10 @@ public class Board {
 		
 		index = 0;
 		for(int i : Constants.MONSTER_CELL_INDICES) {
-			stationedMonsters.get(index).setPosition(i);
-			setCell(i,new MonsterCell("Monster cell",stationedMonsters.get(index++)));
+			if (stationedMonsters != null && index < stationedMonsters.size()) {
+				stationedMonsters.get(index).setPosition(i);
+				setCell(i,new MonsterCell(stationedMonsters.get(index).getName(),stationedMonsters.get(index++)));
+			}
 		}
 	}
 	
@@ -129,8 +131,6 @@ public class Board {
 		}
 		if(currentMonster.isConfused())
 			currentMonster.decrementConfusion();
-		if(opponentMonster.isConfused())
-			opponentMonster.decrementConfusion();
 		updateMonsterPositions(currentMonster, opponentMonster);
 	}
 	

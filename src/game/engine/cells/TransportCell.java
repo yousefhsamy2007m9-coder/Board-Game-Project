@@ -3,7 +3,7 @@ package game.engine.cells;
 import game.engine.monsters.Monster;
 
 public abstract class TransportCell extends Cell {
-	protected  int effect;
+	private int effect;
 
 	public TransportCell(String name, int effect) {
 		super(name);
