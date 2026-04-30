@@ -10,7 +10,7 @@ public class Board {
 	private Cell[][] boardCells;
 	private static ArrayList<Monster> stationedMonsters; 
 	private static ArrayList<Card> originalCards;
-	public static ArrayList<Card> cards;
+	private static ArrayList<Card> cards;
 	
 	public Board(ArrayList<Card> readCards) {
 		this.boardCells = new Cell[Constants.BOARD_ROWS][Constants.BOARD_COLS];
@@ -121,17 +121,23 @@ public class Board {
 		return Board.cards.remove(0);
 	}
 	
-	public void moveMonster(Monster currentMonster, int roll, Monster opponentMonster) throws InvalidMoveException{
-		int old = currentMonster.getPosition();
-		currentMonster.setPosition(currentMonster.getPosition() + roll); //might use move method here??
-		getCell(currentMonster.getPosition()).onLand(currentMonster, opponentMonster);
-		if(currentMonster.getPosition() == opponentMonster.getPosition()) {
-			currentMonster.setPosition(old);
-			throw new InvalidMoveException();
-		}
-		if(currentMonster.isConfused())
-			currentMonster.decrementConfusion();
-		updateMonsterPositions(currentMonster, opponentMonster);
+	public void moveMonster(Monster currentMonster, int roll, Monster opponentMonster) throws InvalidMoveException {
+	    int old = currentMonster.getPosition();
+	    currentMonster.move(roll);
+
+	    if (currentMonster.getPosition() == opponentMonster.getPosition()) {
+	        currentMonster.setPosition(old);
+	        throw new InvalidMoveException();
+	    }
+
+	    getCell(currentMonster.getPosition()).onLand(currentMonster, opponentMonster);
+
+	    if (currentMonster.isConfused()) {
+	        currentMonster.decrementConfusion();
+	        opponentMonster.decrementConfusion();
+	    }
+
+	    updateMonsterPositions(currentMonster, opponentMonster);
 	}
 	
 	private void updateMonsterPositions(Monster player, Monster opponent) {

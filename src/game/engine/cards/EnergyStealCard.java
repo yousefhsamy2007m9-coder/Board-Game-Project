@@ -22,11 +22,13 @@ public class EnergyStealCard extends Card implements CanisterModifier {
 	
 	@Override
 	public void performAction(Monster player, Monster opponent) {
-		int energyToSteal = Math.min(opponent.getEnergy(), this.energy);
-		boolean opponentWasShielded = opponent.isShielded();
-		modifyCanisterEnergy(opponent, -energyToSteal);
-		int actualStolen = opponentWasShielded ? 0 : energyToSteal;
-		modifyCanisterEnergy(player, actualStolen);
+	    int energyToSteal = Math.min(opponent.getEnergy(), this.energy);
+	    boolean opponentWasShielded = opponent.isShielded();
+	    modifyCanisterEnergy(opponent, -energyToSteal); // alterEnergy handles shield
+	    if (!opponentWasShielded) {
+	        // Only give player the energy if opponent was NOT shielded
+	        modifyCanisterEnergy(player, energyToSteal);
+	    }
 	}
 	
 	

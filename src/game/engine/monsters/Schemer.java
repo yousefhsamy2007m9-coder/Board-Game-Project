@@ -1,6 +1,7 @@
 package game.engine.monsters;
 
 import game.engine.Constants;
+import game.engine.Board;
 import game.engine.Role;
 
 import java.util.ArrayList;
@@ -14,10 +15,8 @@ public class Schemer extends Monster {
     @Override
     public void setEnergy(int newEnergy) {
         int delta = newEnergy - getEnergy();
-        if (delta != 0) {
-            int sign = (delta > 0) ? 1 : -1;
-            delta += sign * Constants.SCHEMER_STEAL;
-        }
+        int sign = (delta >= 0) ? 1 : -1; // always apply bonus, even when delta == 0
+        delta += sign * Constants.SCHEMER_STEAL;
         super.setEnergy(getEnergy() + delta);
     }
 
@@ -46,6 +45,7 @@ public class Schemer extends Monster {
 
     @Override
     public void executePowerupEffect(Monster opponentMonster) {
-        executePowerupEffect(opponentMonster, new ArrayList<>());
+        executePowerupEffect(opponentMonster, Board.getStationedMonsters());
     }
+    
 }

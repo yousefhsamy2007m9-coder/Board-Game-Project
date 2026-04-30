@@ -18,13 +18,17 @@ public class MultiTasker extends Monster {
     public void setNormalSpeedTurns(int normalSpeedTurns) {
         this.normalSpeedTurns = normalSpeedTurns;
     }
+    
+    @Override
+    public void move(int distance) {
+        super.move(applySpeed(distance));
+    }
 
     @Override
     public void setEnergy(int newEnergy) {
         int delta = newEnergy - getEnergy();
         if (delta != 0) {
-            int sign = (delta > 0) ? 1 : -1;
-            delta += sign * Constants.MULTITASKER_BONUS;
+            delta += Constants.MULTITASKER_BONUS; // always add +200, not sign * 200
         }
         super.setEnergy(getEnergy() + delta);
     }

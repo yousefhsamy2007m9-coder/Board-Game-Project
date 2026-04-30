@@ -19,6 +19,11 @@ public class Dasher extends Monster {
     }
 
     @Override
+    public void move(int distance) {
+        super.move(applySpeed(distance));
+    }
+    
+    @Override
     public void executePowerupEffect(Monster opponentMonster) {
         this.momentumTurns = 3;
     }

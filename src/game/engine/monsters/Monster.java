@@ -97,7 +97,8 @@ public abstract class Monster implements Comparable<Monster> {
 
     public final void alterEnergy(int energy) {
         if (isShielded() && energy < 0) {
-            setShielded(false);
+            setShielded(false); // consume shield
+            // energy is NOT altered
         } else {
             setEnergy(getEnergy() + energy);
         }
@@ -114,6 +115,10 @@ public abstract class Monster implements Comparable<Monster> {
 
     public abstract void executePowerupEffect(Monster opponentMonster);
 
+    public final void spendEnergy(int amount) {
+        this.energy = Math.max(Constants.MIN_ENERGY, this.energy - amount);
+    }
+    
     @Override
     public int compareTo(Monster other) {
         return this.position - other.position;
