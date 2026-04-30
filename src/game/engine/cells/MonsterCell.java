@@ -4,9 +4,7 @@ import game.engine.monsters.*;
 
 public class MonsterCell extends Cell {
 	private Monster cellMonster;
-	private int landingEnergy;
-	private int cellEnergy;
-
+	
 	public MonsterCell(String name, Monster cellMonster) {
 		super(name);
 		this.cellMonster = cellMonster;
