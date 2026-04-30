@@ -28,6 +28,10 @@ public abstract class Card {
 		return rarity;
 	}
 	
+	public void setRarity(int rarity) {
+	    this.rarity = rarity;
+	}
+	
 	public boolean isLucky() {
 		return lucky;
 	}

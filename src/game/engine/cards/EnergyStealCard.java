@@ -28,4 +28,6 @@ public class EnergyStealCard extends Card implements CanisterModifier {
 		int actualStolen = opponentWasShielded ? 0 : energyToSteal;
 		modifyCanisterEnergy(player, actualStolen);
 	}
+	
+	
 }
