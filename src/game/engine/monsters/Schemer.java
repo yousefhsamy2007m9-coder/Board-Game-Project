@@ -14,15 +14,16 @@ public class Schemer extends Monster {
 
     @Override
     public void setEnergy(int newEnergy) {
-        int delta = newEnergy - getEnergy();
-        int sign = (delta >= 0) ? 1 : -1; // always apply bonus, even when delta == 0
-        delta += sign * Constants.SCHEMER_STEAL;
-        super.setEnergy(getEnergy() + delta);
+        int change = newEnergy - getEnergy();
+        if (change >= 0)
+        	super.setEnergy(newEnergy + 10);
+        else
+        	super.setEnergy(newEnergy - 10);
+        
     }
 
     private int stealEnergyFrom(Monster target) {
         int stealAmount = Math.min(Constants.SCHEMER_STEAL, target.getEnergy());
-        // Use setEnergy directly (bypass super passive bonus on target's side)
         target.setEnergy(target.getEnergy() - stealAmount);
         return stealAmount;
     }
@@ -34,9 +35,7 @@ public class Schemer extends Monster {
 
         if (stationedMonsters != null) {
             for (Monster m : stationedMonsters) {
-                if (m != this) {
-                    totalStolen += stealEnergyFrom(m);
-                }
+                totalStolen += stealEnergyFrom(m);
             }
         }
 

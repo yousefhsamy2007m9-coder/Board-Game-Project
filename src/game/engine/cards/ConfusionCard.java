@@ -18,13 +18,11 @@ public class ConfusionCard extends Card {
 	
 	@Override
 	public void performAction(Monster player, Monster opponent) {
-		// Swap roles
 		Role playerRole = player.getRole();
-		Role opponentRole = opponent.getRole();
-		player.setRole(opponentRole);
+		
+		player.setRole(opponent.getRole());
 		opponent.setRole(playerRole);
  
-		// Set confusion turn count for both
 		player.setConfusionTurns(duration);
 		opponent.setConfusionTurns(duration);
 	}

@@ -14,8 +14,6 @@ public class CardCell extends Cell {
 	        super.onLand(landingMonster, opponentMonster);
 
 	        Card card = Board.drawCard();
-	        if (card != null) {
-	            card.performAction(landingMonster,opponentMonster);
-	        }
+	        card.performAction(landingMonster,opponentMonster);
 	 }
 }

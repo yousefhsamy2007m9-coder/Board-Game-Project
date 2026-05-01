@@ -10,9 +10,8 @@ public class Dynamo extends Monster {
 
     @Override
     public void setEnergy(int newEnergy) {
-        int delta = newEnergy - getEnergy();
-        int amplifiedDelta = delta * 2;
-        super.setEnergy(getEnergy() + amplifiedDelta);
+        int doubledChange = (newEnergy - getEnergy())*2;
+        super.setEnergy(getEnergy() + doubledChange);
     }
 
     @Override

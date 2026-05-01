@@ -53,14 +53,6 @@ public class Game {
 		this.current = current;
 	}
 	
-	private Monster selectRandomMonsterByRole(Role role) {
-		Collections.shuffle(allMonsters);
-	    return allMonsters.stream()
-	    		.filter(m -> m.getRole() == role)
-	    		.findFirst()
-	    		.orElse(null);
-	}
-	
 	private Monster getCurrentOpponent() {
 		return current == player? opponent: player;
 	}
@@ -69,10 +61,18 @@ public class Game {
 		return (int) (Math.random() * 6) + 1;
 	}
 	
+	private Monster selectRandomMonsterByRole(Role role) {
+		Collections.shuffle(allMonsters);
+	    return allMonsters.stream()
+	    		.filter(m -> m.getRole() == role)
+	    		.findFirst()
+	    		.orElse(null);
+	}
+	
 	public void usePowerup() throws OutOfEnergyException {
 		if (current.getEnergy() < Constants.POWERUP_COST)
 			throw new OutOfEnergyException();
-		current.spendEnergy(Constants.POWERUP_COST);
+		current.setEnergy(current.getEnergy() - Constants.POWERUP_COST);
 		current.executePowerupEffect(getCurrentOpponent());
 	}
 	
@@ -91,7 +91,7 @@ public class Game {
 	}
 	
 	private boolean checkWinCondition(Monster monster) {
-		return monster.getEnergy()>=Constants.WINNING_ENERGY && monster.getPosition() == 99;
+		return monster.getEnergy() >= Constants.WINNING_ENERGY && monster.getPosition() == 99;
 	}
 	
 	public Monster getWinner() {

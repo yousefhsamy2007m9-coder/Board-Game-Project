@@ -125,12 +125,12 @@ public class Board {
 	    int old = currentMonster.getPosition();
 	    currentMonster.move(roll);
 
+	    getCell(currentMonster.getPosition()).onLand(currentMonster, opponentMonster);
+
 	    if (currentMonster.getPosition() == opponentMonster.getPosition()) {
 	        currentMonster.setPosition(old);
 	        throw new InvalidMoveException();
 	    }
-
-	    getCell(currentMonster.getPosition()).onLand(currentMonster, opponentMonster);
 
 	    if (currentMonster.isConfused()) {
 	        currentMonster.decrementConfusion();

@@ -20,23 +20,18 @@ public class Dasher extends Monster {
 
     @Override
     public void move(int distance) {
-        super.move(applySpeed(distance));
+    	int multiplied;
+        if (momentumTurns > 0) {
+        	multiplied = distance * 3;
+            momentumTurns--;
+        } else {
+        	multiplied = distance * 2;
+        }
+        super.move(multiplied);
     }
     
     @Override
     public void executePowerupEffect(Monster opponentMonster) {
         this.momentumTurns = 3;
-    }
-
-    public int getSpeedMultiplier() {
-        return (momentumTurns > 0) ? 3 : 2;
-    }
-
-    public int applySpeed(int diceRoll) {
-        int multiplied = diceRoll * getSpeedMultiplier();
-        if (momentumTurns > 0) {
-            momentumTurns--;
-        }
-        return multiplied;
     }
 }

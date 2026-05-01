@@ -21,28 +21,19 @@ public class MultiTasker extends Monster {
     
     @Override
     public void move(int distance) {
-        super.move(applySpeed(distance));
+    	int divided;
+        if (normalSpeedTurns > 0) {
+        	divided = distance;
+            normalSpeedTurns--;
+        } else {
+        	divided = distance/2;
+        }
+        super.move(divided);
     }
 
     @Override
     public void setEnergy(int newEnergy) {
-        int delta = newEnergy - getEnergy();
-        if (delta != 0) {
-            delta += Constants.MULTITASKER_BONUS; // always add +200, not sign * 200
-        }
-        super.setEnergy(getEnergy() + delta);
-    }
-
-    public int getSpeedDivisor() {
-        return (normalSpeedTurns > 0) ? 1 : 2;
-    }
-
-    public int applySpeed(int diceRoll) {
-        int divided = diceRoll / getSpeedDivisor();
-        if (normalSpeedTurns > 0) {
-            normalSpeedTurns--;
-        }
-        return divided;
+        super.setEnergy(newEnergy + Constants.MULTITASKER_BONUS);
     }
 
     @Override

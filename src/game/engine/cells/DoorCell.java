@@ -37,9 +37,9 @@ public class DoorCell extends Cell implements CanisterModifier {
     @Override
     public void modifyCanisterEnergy(Monster monster, int canisterValue) {
         if (monster.getRole() == this.role) {
-            monster.alterEnergy(canisterValue);   // same role = gain
+            monster.alterEnergy(canisterValue);
         } else {
-            monster.alterEnergy(-canisterValue);  // different role = penalty
+            monster.alterEnergy(-canisterValue);
         }
     }
 
@@ -47,11 +47,10 @@ public class DoorCell extends Cell implements CanisterModifier {
     public void onLand(Monster landingMonster, Monster opponentMonster) {
         super.onLand(landingMonster, opponentMonster);
 
-        if (activated) return;
+        if (activated)
+        	return;
 
-        boolean roleMatch = landingMonster.getRole() == this.role;
-
-        if (roleMatch) {
+        if (landingMonster.getRole() == this.role) {
             modifyCanisterEnergy(landingMonster, this.energy);
             for (Monster m : Board.getStationedMonsters()) {
                 if (m.getRole() == this.role) {
@@ -61,7 +60,7 @@ public class DoorCell extends Cell implements CanisterModifier {
             activated = true;
         } else {
             boolean wasShielded = landingMonster.isShielded();
-            modifyCanisterEnergy(landingMonster, this.energy); // method handles negation
+            modifyCanisterEnergy(landingMonster, this.energy);
 
             if (!wasShielded) {
                 for (Monster m : Board.getStationedMonsters()) {
@@ -72,5 +71,6 @@ public class DoorCell extends Cell implements CanisterModifier {
                 activated = true;
             }
         }
+        
     }
 }
